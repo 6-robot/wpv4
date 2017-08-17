@@ -1,0 +1,11 @@
+<launch>
+
+<!-- jwpv4 -->
+<node pkg="wpv4_bringup" type="wpv4_motor_encoder" name="wpv4_motor_encoder" output="screen">
+    <param name="serial_port" type="string" value="/dev/wpv4_base"/> 
+  </node>
+
+<!-- Axes Velcmd -->
+ <node pkg="wpv4_bringup" type="wpv4_calibrate_velocity" name="wpv4_calibrate_vel" />
+
+</launch>

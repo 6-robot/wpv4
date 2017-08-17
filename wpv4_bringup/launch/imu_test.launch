@@ -1,0 +1,6 @@
+<launch>
+
+  <node pkg="wpv4_bringup" type="wpv4_imu" name="wpv4_imu" output="screen"/>
+  <node pkg="wpv4_bringup" type="imu_odometry_wpv4" name="imu_odometry_wpv4" output="screen"/>
+
+</launch>

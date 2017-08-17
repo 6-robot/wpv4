@@ -1,0 +1,7 @@
+<library path="lib/libwpv4_diff_local_planner">
+	<class name="waterplus_local_planner/WPV4DiffLocalPlanner" type="waterplus_local_planner::WPV4DiffLocalPlanner" base_class_type="nav_core::BaseLocalPlanner">
+		<description>
+			The wpv4_diff_local_planner package implements a plugin to the base_local_planner of the 2D navigation stack.
+		</description>
+	</class>
+</library>

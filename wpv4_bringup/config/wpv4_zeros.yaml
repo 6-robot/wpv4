@@ -1,0 +1,12 @@
+zeros:
+  #Desk
+  kinect_height: 1.15
+  kinect_pitch: -0.55
+  mani_1_2: -1.08
+  mani_3_4: 2.03
+  mani_5_6: 0.72
+  mani_palm_finger: 0.50
+
+  #Follow
+  #kinect_pitch: -0.25
+  #kinect_height: 1.46
