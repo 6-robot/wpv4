@@ -3,7 +3,7 @@
 
   <arg name="model" default="$(find wpv4_bringup)/urdf/wpv4_lms111.urdf"/>
   <arg name="gui" default="true" />
-  <arg name="rvizconfig" default="$(find wpv4_bringup)/rviz/nav.rviz" />
+  <arg name="rvizconfig" default="$(find wpv4_tutorials)/rviz/nav.rviz" />
 
   <param name="robot_description" command="$(find xacro)/xacro.py $(arg model)" />
   <param name="use_gui" value="$(arg gui)"/>
@@ -11,7 +11,6 @@
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
-  <!-- <node pkg="wpv4_bringup" type="js_odometry" name="teleop"/> -->
 
   <!-- wpv4 imu-->
   <node pkg="wpv4_bringup" type="wpv4_imu" name="wpv4_imu" output="screen">
@@ -29,7 +28,6 @@
   <node pkg="lms1xx" name="lms1xx" type="LMS1xx_node">
     <param name="host" value="$(arg host)" />
   </node>
-
 
   <!-- Run the map server -->
   <node name="map_server" pkg="map_server" type="map_server" args="$(find wpv4_tutorials)/maps/map.yaml"/>

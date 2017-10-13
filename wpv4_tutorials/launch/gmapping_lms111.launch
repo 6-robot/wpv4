@@ -1,0 +1,48 @@
+<launch>
+  
+  <arg name="model" default="$(find wpv4_bringup)/urdf/wpv4_lms111.urdf"/>
+  <arg name="gui" default="true" />
+
+  <param name="robot_description" command="$(find xacro)/xacro.py $(arg model)" />
+  <param name="use_gui" value="$(arg gui)"/>
+  <arg name="rvizconfig" default="$(find wpv4_tutorials)/rviz/mapping.rviz" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+
+  <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping">
+    <param name="base_frame" value="base_footprint"/>
+  </node>
+
+  <!-- Run wpv4 core -->
+  <node pkg="wpv4_bringup" type="wpv4_core" name="wpv4_core" output="screen">
+    <param name="serial_port" type="string" value="/dev/wpv4_base"/> 
+    <param name="imu_odom" type="bool" value="true"/> 
+  </node>
+
+  <!-- wpv4 imu-->
+  <node pkg="wpv4_bringup" type="wpv4_imu" name="wpv4_imu" output="screen">
+    <param name="serial_port" type="string" value="/dev/wpv4_imu"/> 
+  </node>
+
+
+  <!--- Run LMS111 -->
+  <arg name="host" default="192.168.0.2" />
+  <node pkg="lms1xx" name="lms1xx" type="LMS1xx_node">
+    <param name="host" value="$(arg host)" />
+  </node>
+
+  <!-- joy node -->
+  <node respawn="true" pkg="joy" type="joy_node" name="wpb_home_joy" >
+    <param name="dev" type="string" value="/dev/input/js0" />
+    <param name="deadzone" value="0.12" />
+  </node>
+
+  <!-- Axes Velcmd -->
+  <param name="axis_linear" value="1" type="int"/>
+  <param name="axis_angular" value="0" type="int"/>
+  <param name="scale_linear" value="2" type="double"/>
+  <param name="scale_angular" value="2" type="double"/>
+  <node pkg="wpv4_bringup" type="wpv4_js_velcmd" name="teleop"/>
+
+</launch>
