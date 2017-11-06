@@ -40,7 +40,7 @@
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "wpb_cv_velocity_control");
+  ros::init(argc, argv, "wpv4_velocity_control");
 
   ros::NodeHandle n;
   ros::Publisher vel_pub = n.advertise<geometry_msgs::Twist>("/cmd_vel", 10);
