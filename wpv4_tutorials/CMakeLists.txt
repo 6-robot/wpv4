@@ -32,7 +32,9 @@ find_package(catkin REQUIRED)
 ##   * If MSG_DEP_SET isn't empty the following dependency has been pulled in
 ##     but can be declared for certainty nonetheless:
 ##     * add a run_depend tag for "message_runtime"
-## * In this file (CMakeLists.txt):
+find_package(catkin REQUIRED COMPONENTS
+  roscpp cv_bridge image_transport tf
+)
 ##   * add "message_generation" and every package in MSG_DEP_SET to
 ##     find_package(catkin REQUIRED COMPONENTS ...)
 ##   * add "message_runtime" and every package in MSG_DEP_SET to
@@ -111,7 +113,11 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-# include_directories(include)
+include_directories(
+  include ${catkin_INCLUDE_DIRS}
+# include
+# ${catkin_INCLUDE_DIRS}
+)
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
@@ -190,3 +196,27 @@ catkin_package(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+add_executable(wpv4_velocity_control
+  src/wpv4_velocity_control.cpp
+)
+add_dependencies(wpv4_velocity_control ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(wpv4_velocity_control
+  ${catkin_LIBRARIES}
+)
+
+add_executable(wpv4_imu_demo
+  src/wpv4_imu_demo.cpp
+)
+add_dependencies(wpv4_imu_demo ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(wpv4_imu_demo
+  ${catkin_LIBRARIES}
+)
+
+add_executable(wpv4_nav_simple_goal
+  src/wpv4_nav_simple_goal.cpp
+)
+add_dependencies(wpv4_nav_simple_goal ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(wpv4_nav_simple_goal
+  ${catkin_LIBRARIES}
+)

@@ -1,0 +1,9 @@
+<launch>
+
+  <!--- wpv4 base imu -->
+  <include file="$(find wpv4_bringup)/launch/base_imu.launch" />
+  
+  <!--- imu demo -->
+  <node pkg="wpv4_tutorials" type="wpv4_imu_demo" name="wpv4_imu_demo" output="screen"/>
+
+</launch>

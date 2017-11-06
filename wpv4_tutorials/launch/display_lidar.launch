@@ -1,8 +1,8 @@
 <launch>
 
-  <arg name="model" default="$(find wpv4_bringup)/urdf/wpv4_t_m1.urdf"/>
-  <arg name="gui" default="false" />
-  <arg name="rvizconfig" default="$(find wpv4_bringup)/rviz/display_t.rviz" />
+  <arg name="model" default="$(find wpv4_bringup)/urdf/wpv4.urdf"/>
+  <arg name="gui" default="true" />
+  <arg name="rvizconfig" default="$(find wpv4_bringup)/rviz/urdf.rviz" />
 
   <param name="robot_description" command="$(find xacro)/xacro.py $(arg model)" />
   <param name="use_gui" value="$(arg gui)"/>

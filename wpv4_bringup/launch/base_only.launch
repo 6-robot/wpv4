@@ -1,0 +1,8 @@
+<launch>
+
+    <!-- wpv4 core-->
+    <node pkg="wpv4_bringup" type="wpv4_core" name="wpv4_core" output="screen">
+        <param name="serial_port" type="string" value="/dev/wpv4_base"/> 
+    </node>
+
+</launch>

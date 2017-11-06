@@ -1,0 +1,9 @@
+<launch>
+
+    <!--- navigation -->
+    <include file="$(find wpv4_tutorials)/launch/nav_lms111.launch" />
+
+    <!--- nav demo -->
+    <node pkg="wpv4_tutorials" type="wpv4_nav_simple_goal" name="wpv4_nav_simple_goal" output="screen"/>
+
+</launch>

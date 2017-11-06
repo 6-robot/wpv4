@@ -1,0 +1,9 @@
+<launch>
+
+    <!--- wpv4 base -->
+    <include file="$(find wpv4_bringup)/launch/base_only.launch" />
+  
+    <!--- imu demo -->
+    <node pkg="wpv4_tutorials" type="wpv4_velocity_control" name="wpv4_velocity_control" output="screen"/>
+
+</launch>
