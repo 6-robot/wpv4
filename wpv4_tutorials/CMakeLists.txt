@@ -33,7 +33,7 @@ find_package(catkin REQUIRED)
 ##     but can be declared for certainty nonetheless:
 ##     * add a run_depend tag for "message_runtime"
 find_package(catkin REQUIRED COMPONENTS
-  roscpp cv_bridge image_transport tf
+  roscpp std_msgs sensor_msgs cv_bridge image_transport tf move_base_msgs actionlib
 )
 ##   * add "message_generation" and every package in MSG_DEP_SET to
 ##     find_package(catkin REQUIRED COMPONENTS ...)

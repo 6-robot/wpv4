@@ -6,7 +6,7 @@
 static CWPV4_driver m_wpv4;
 void cmdVelCallback(const geometry_msgs::Twist::ConstPtr& msg)
 {
-    //ROS_INFO("[wpb_home_cmd_vel] liner(%.2f %.2f) angular(%.2f)", msg->linear.x,msg->linear.y,msg->angular.z);
+    //ROS_INFO("[wpv4_cmd_vel] liner(%.2f %.2f) angular(%.2f)", msg->linear.x,msg->linear.y,msg->angular.z);
     m_wpv4.Velocity(msg->linear.x,msg->linear.y,msg->angular.z);
 }
 
@@ -22,7 +22,6 @@ int main(int argc, char** argv)
     std::string strSerialPort;
     n_param.param<std::string>("serial_port", strSerialPort, "/dev/ttyUSB0");
     m_wpv4.Open(strSerialPort.c_str(),115200);
-    //m_wpv4.Open("/dev/ttyUSB1",115200);
     
     ros::Rate r(100.0);
     r.sleep();

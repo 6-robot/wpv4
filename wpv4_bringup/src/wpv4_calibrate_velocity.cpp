@@ -106,7 +106,7 @@ public:
 int main(int argc, char** argv)
 {
   //init the ROS node
-  ros::init(argc, argv, "wpb_home_calibrate_velocity");
+  ros::init(argc, argv, "wpv4_calibrate_velocity");
   ros::NodeHandle nh;
 
   CVelocityTest vt(nh);
