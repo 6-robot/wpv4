@@ -1,13 +1,12 @@
 <launch>
 
     <!-- wpv4 core -->
-    <node pkg="wpv4_bringup" type="wpv4_core" name="wpv4_core" output="screen">
+    <node pkg="wpv4_bringup" type="wpv4_core" name="wpv4_core">
         <param name="serial_port" type="string" value="/dev/wpv4_base"/> 
     </node>
 
     <!-- joy node -->
-    <node respawn="true" pkg="joy"
-        type="joy_node" name="joy_node" >
+    <node respawn="true" pkg="joy" type="joy_node" name="joy_node">
     <param name="dev" type="string" value="/dev/input/js0" />
     <param name="deadzone" value="0.12" />
     </node>
@@ -17,6 +16,6 @@
     <param name="axis_angular" value="0" type="int"/>
     <param name="scale_linear" value="2" type="double"/>
     <param name="scale_angular" value="2" type="double"/>
-    <node pkg="wpv4_bringup" type="wpv4_js_velcmd" name="teleop"/>
+    <node pkg="wpv4_bringup" type="wpv4_js_velcmd" name="teleop"  output="screen"/>
 
 </launch>
