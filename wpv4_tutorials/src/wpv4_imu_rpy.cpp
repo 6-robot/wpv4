@@ -40,19 +40,33 @@
 #include <tf/transform_broadcaster.h>
 #include <nav_msgs/Odometry.h>
 
+ros::Publisher rpy_pub;
+
 void imuCallback(const sensor_msgs::Imu::ConstPtr& msg)
 {
     tf::Quaternion q(msg->orientation.x,msg->orientation.y,msg->orientation.z,msg->orientation.w);
-    ROS_INFO("[wpv4_imu_demo] Yaw= %f",tf::getYaw(q)*180/3.1415);
+
+    double roll, pitch, yaw;
+    tf::Matrix3x3(q).getRPY(roll, pitch, yaw);
+
+    ROS_INFO("[IMU] Roll= %.2f Pitch = %.2f Yaw= %.2f ",roll, pitch, yaw);
+
+    geometry_msgs::Vector3 rpy;
+    rpy.x = roll;
+    rpy.y = pitch;
+    rpy.z = yaw;
+
+    rpy_pub.publish(rpy);
 }
 
 int main(int argc, char **argv)
 {
-  ros::init(argc,argv, "wpv4_imu_demo"); 
-  ROS_INFO("[wpv4_imu_demo]");
+  ros::init(argc,argv, "wpv4_imu_rpy"); 
+  ROS_INFO("[wpv4_imu_rpy]");
 
   ros::NodeHandle n;
   ros::Subscriber sub = n.subscribe("imu/data_raw", 100, imuCallback);
+  rpy_pub = n.advertise<geometry_msgs::Vector3>("imu/rpy", 100);
   ros::spin();
 
   return 0;

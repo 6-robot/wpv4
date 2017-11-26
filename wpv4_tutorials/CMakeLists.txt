@@ -220,3 +220,12 @@ add_dependencies(wpv4_nav_simple_goal ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catk
 target_link_libraries(wpv4_nav_simple_goal
   ${catkin_LIBRARIES}
 )
+
+
+add_executable(wpv4_imu_rpy
+  src/wpv4_imu_rpy.cpp
+)
+add_dependencies(wpv4_imu_rpy ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(wpv4_imu_rpy
+  ${catkin_LIBRARIES}
+)

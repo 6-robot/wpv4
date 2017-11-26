@@ -1,0 +1,12 @@
+<launch>
+
+  <!--- wpv4 js imu -->
+  <include file="$(find wpv4_bringup)/launch/js_imu.launch" />
+  
+  <!--- imu rpy -->
+  <node pkg="wpv4_tutorials" type="wpv4_imu_rpy" name="wpv4_imu_rpy" output="screen"/>
+
+  <!--- rqt_plot -->
+  <node pkg='rqt_plot' name='rqt_plot' type='rqt_plot' args='/imu/rpy/z'/>
+
+</launch>
