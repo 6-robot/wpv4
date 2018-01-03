@@ -11,7 +11,10 @@ int main(int argc, char** argv)
     ros::Publisher out_pub = n.advertise<sensor_msgs::Imu >("imu/data_raw", 1000);
 
     CMPU_driver m_mpu;
-    m_mpu.Open("/dev/wpv4_imu",1000000);
+    ros::NodeHandle n_param("~");
+    std::string strSerialPort;
+    n_param.param<std::string>("serial_port", strSerialPort, "/dev/wpv4_imu");
+    m_mpu.Open(strSerialPort.c_str(),1000000);
     
     ros::Rate r(100.0);
 

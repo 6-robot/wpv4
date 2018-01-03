@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot name="wp_v4">
+<robot name="WPV4_LMS111_D">
 
   <!-- material -->
   <material name = "black">

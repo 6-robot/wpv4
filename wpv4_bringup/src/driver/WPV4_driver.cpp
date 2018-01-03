@@ -207,6 +207,57 @@ void CWPV4_driver::Velocity(float inX, float inY, float inAngular)
 	SetSixMotorsSpeed(m_nMotorToSend);
 }
 
+static float fTrackLinearK = 1320;
+static float fTrackAngularK = 480;
+void CWPV4_driver::Track(float inX, float inY, float inAngular)
+{
+	
+	int nTmpMotorVal = inX * fTrackLinearK;
+	m_nMotorToSend[0] = -nTmpMotorVal;
+	m_nMotorToSend[1] = nTmpMotorVal;
+	m_nMotorToSend[2] = -nTmpMotorVal;
+	m_nMotorToSend[3] = nTmpMotorVal;
+
+	nTmpMotorVal = inAngular * fTrackAngularK;
+	m_nMotorToSend[0] += nTmpMotorVal;
+	m_nMotorToSend[1] += nTmpMotorVal;
+	m_nMotorToSend[2] += nTmpMotorVal;
+	m_nMotorToSend[3] += nTmpMotorVal;
+
+	//printf("[CWPV4_driver::Track]-> [0]%d [1]%d [2]%d [3]%d \n", m_nMotorToSend[0], m_nMotorToSend[1], m_nMotorToSend[2], m_nMotorToSend[3]);
+
+	SetSixMotorsSpeed(m_nMotorToSend);
+}
+
+static float fMecanumLinearK = 1320;
+static float fMecanumAngularK = 480;
+void CWPV4_driver::Mecanum(float inX, float inY, float inAngular)
+{
+	//upward backward
+	int nTmpMotorVal = inX * fMecanumLinearK;
+	m_nMotorToSend[0] = -nTmpMotorVal;
+	m_nMotorToSend[1] = nTmpMotorVal;
+	m_nMotorToSend[2] = -nTmpMotorVal;
+	m_nMotorToSend[3] = nTmpMotorVal;
+
+	//shif left right
+	nTmpMotorVal = inY * fMecanumLinearK;
+	m_nMotorToSend[0] += -nTmpMotorVal;
+	m_nMotorToSend[1] += -nTmpMotorVal;
+	m_nMotorToSend[2] += nTmpMotorVal;
+	m_nMotorToSend[3] += nTmpMotorVal;
+
+	//Turning 
+	nTmpMotorVal = inAngular * fMecanumAngularK;
+	m_nMotorToSend[0] += nTmpMotorVal;
+	m_nMotorToSend[1] += nTmpMotorVal;
+	m_nMotorToSend[2] += nTmpMotorVal;
+	m_nMotorToSend[3] += nTmpMotorVal;
+
+	//printf("[CWPV4_driver::Mecanum]-> [0]%d [1]%d [2]%d [3]%d \n", m_nMotorToSend[0], m_nMotorToSend[1], m_nMotorToSend[2], m_nMotorToSend[3]);
+
+	SetSixMotorsSpeed(m_nMotorToSend);
+}
 
 void CWPV4_driver::SetSixMotorsSpeed(int *inSpeed)
 {

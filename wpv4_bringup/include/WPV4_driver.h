@@ -9,6 +9,8 @@ public:
     void Parse(unsigned char inData);
 	int m_valData[16];
 	void Velocity(float inX, float inY, float inAngular);
+	void Track(float inX, float inY, float inAngular);
+	void Mecanum(float inX, float inY, float inAngular);
 	void SetSixMotorsSpeed(int *inSpeed);
 	int arMotorPos[6];
 	int arMotorCurrent[6];

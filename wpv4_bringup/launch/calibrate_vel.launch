@@ -1,10 +1,8 @@
 <launch>
 
-  <!-- wpv4 core -->
-  <node pkg="wpv4_bringup" type="wpv4_motor_encoder" name="wpv4_motor_encoder" >
-      <param name="serial_port" type="string" value="/dev/wpv4_base"/> 
-  </node>
-
+  <!--- wpv4 base imu -->
+  <include file="$(find wpv4_bringup)/launch/base_imu.launch" />
+  
   <!-- calibrate -->
   <node pkg="wpv4_bringup" type="wpv4_calibrate_velocity" name="wpv4_calibrate_vel" output="screen"/>
 

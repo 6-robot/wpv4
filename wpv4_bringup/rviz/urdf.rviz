@@ -6,12 +6,8 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
-        - /Grid1
         - /RobotModel1
         - /RobotModel1/Links1
-        - /RobotModel1/Links1/lf_wheel1
-        - /LaserScan1
-        - /PointCloud21
       Splitter Ratio: 0.5
     Tree Height: 769
   - Class: rviz/Selection
@@ -218,22 +214,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 0.81751
+      Distance: 0.747165
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.330894
-        Y: 0.117377
-        Z: 0.239205
+        X: 0.341831
+        Y: 0.18054
+        Z: 0.225731
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.229161
+      Pitch: 0.134798
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.538142
+      Yaw: 0.633221
     Saved: ~
 Window Geometry:
   Displays:

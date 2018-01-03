@@ -5,4 +5,5 @@
 KERNEL=="ttyUSB*", KERNELS=="2-1.1", MODE:="0777", SYMLINK+="wpv4_gps"
 KERNEL=="ttyUSB*", KERNELS=="3-2.1", MODE:="0777", SYMLINK+="wpv4_imu"
 KERNEL=="ttyUSB*", KERNELS=="3-2.2", MODE:="0777", SYMLINK+="wpv4_base"
+KERNEL=="ttyUSB*", KERNELS=="3-2.3", MODE:="0777", SYMLINK+="wpv4_mani"
 

@@ -1,0 +1,413 @@
+<?xml version="1.0"?>
+<robot name="WPV4_TRACK_WPM2">
+
+  <!-- material -->
+  <material name = "black">
+    <color rgba = "0.01 0.01 0.01 1"/>
+  </material>
+  <material name = "grey">
+    <color rgba = "0.2 0.2 0.2 1"/>
+  </material>
+  <material name = "light_grey">
+      <color rgba = "0.5 0.5 0.5 1"/>
+  </material>
+  <material name = "blue">
+    <color rgba = "0.2 0.2 0.9 1"/>
+  </material>
+
+
+<link name="base_footprint">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.05 0.05 0.001" />
+      </geometry>
+      <material name="TransparentGreen" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 .1" rpy="0 0 0" />
+      <geometry>
+        <box size="0.76 0.5 .2"/>
+      </geometry>
+    </collision>
+    <inertial>
+    <mass value="10"/>
+    <inertia ixx="0.4" ixy="0.0" ixz="0.0" iyy="0.4" iyz="0.0" izz="0.2"/>
+    </inertial>
+</link>
+
+<joint name="base_joint" type="fixed">
+  <origin xyz="0 0 0.06" rpy="0 0 0" />
+  <parent link="base_footprint"/>
+  <child link="base_link" />
+</joint>
+
+  <!-- base -->
+  <link name="base_link">
+  <visual>
+   <geometry>
+    <cylinder length="0.6" radius="0.0"/>
+   </geometry>
+   <origin rpy = "0 0 0" xyz = "0 0 0"/>
+  </visual>
+  </link>
+
+  <!-- body -->
+  <link name = "body_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://wpv4_bringup/meshes/track.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <origin rpy = "1.57 0 1.57" xyz = "-0.38 -0.35 -0.06"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 .15" rpy="0 0 0" />
+      <geometry>
+        <box size="0.76 0.5 0.095"/>
+      </geometry>
+    </collision>
+    <inertial>
+    <mass value="10"/>
+    <inertia ixx="0.4" ixy="0.0" ixz="0.0" iyy="0.4" iyz="0.0" izz="0.2"/>
+    </inertial>
+  </link>
+  <joint name = "base_to_body" type = "fixed">
+    <parent link = "base_link"/>
+    <child link = "body_link"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/> <!--pos-->
+  </joint>
+  <gazebo reference = "body_link">
+            <turnGravityOff>false</turnGravityOff>
+  </gazebo>
+ <!-- wheel -->
+  <link name = "lf_wheel">
+  </link>
+  <joint name = "base_to_lf_wheal" type = "continuous">
+    <axis rpy="0 0 0" xyz="0 1 0"/>
+    <parent link = "base_link"/>
+    <child link = "lf_wheel"/>
+    <origin rpy="0 0 0" xyz="0.135 0.26 0.038"/> <!--pos to base-->
+  </joint>
+   <gazebo reference = "lf_wheel">
+            <mu1 value = "1.0"/>
+            <mu2 value = "1.0"/>
+            <kp value = "10.0"/>
+            <kd value = "1.0"/>
+            <fdir1 value = "1 0 0"/>
+            <turnGravityOff>true</turnGravityOff>
+  </gazebo>
+
+<link name = "rf_wheel">
+  
+</link>
+<joint name = "base_to_rf_wheal" type = "continuous">
+  <axis rpy="0 0 0" xyz="0 -1 0"/>
+  <parent link = "base_link"/>
+  <child link = "rf_wheel"/>
+  <origin rpy="0 0 3.14" xyz="0.135 -0.26 0.038"/> <!--pos-->
+</joint>
+ <gazebo reference = "rf_wheel">
+            <mu1 value = "1.0"/>
+            <mu2 value = "1.0"/>
+            <kp value = "10.0"/>
+            <kd value = "1.0"/>
+            <fdir1 value = "1 0 0"/>
+            <turnGravityOff>false</turnGravityOff>
+        </gazebo>
+
+<link name = "lb_wheel">
+  
+</link>
+<joint name = "base_to_lb_wheal" type = "continuous">
+  <axis rpy="0 0 0" xyz="0 1 0"/>
+  <parent link = "base_link"/>
+  <child link = "lb_wheel"/>
+  <origin rpy="0 0 0" xyz="-0.175 0.26 0.038"/> <!--pos to base-->
+</joint>
+ <gazebo reference = "lb_wheel">
+            <mu1 value = "1.0"/>
+            <mu2 value = "1.0"/>
+            <kp value = "10.0"/>
+            <kd value = "1.0"/>
+            <fdir1 value = "1 0 0"/>
+            <material>Gazebo/Black</material>
+            <turnGravityOff>false</turnGravityOff>
+        </gazebo>
+
+<link name = "rb_wheel">
+  
+</link>
+<joint name = "base_to_rb_wheal" type = "continuous">
+  <axis rpy="0 0 0" xyz="0 -1 0"/>
+  <parent link = "base_link"/>
+  <child link = "rb_wheel"/>
+  <origin rpy="0 0 3.14" xyz="-0.175 -0.26 0.038"/> <!--pos-->
+</joint>
+ <gazebo reference = "rb_wheel">
+            <mu1 value = "1.0"/>
+            <mu2 value = "1.0"/>
+            <kp value = "10.0"/>
+            <kd value = "1.0"/>
+            <fdir1 value = "1 0 0"/>
+            <material>Gazebo/Black</material>
+            <turnGravityOff>false</turnGravityOff>
+        </gazebo>
+<!-- ****manipulator ****-->
+  <link name = "wpm2_joint_1">
+    <visual>
+        <geometry>
+            <mesh filename="package://wpv4_bringup/meshes/m2_base.stl" scale="1 1 1"/>
+        </geometry>
+        <material name = "grey"/>
+        <origin rpy = "1.57 0 1.57" xyz = "-0.16 -0.075 0"/>
+    </visual>
+</link>
+  <joint name = "base_mani" type = "fixed">
+    <parent link = "base_link"/>
+    <child link = "wpm2_joint_1"/>
+    <origin xyz = "0.26 0 0.194"/>
+</joint>
+<!-- mani_part_2 -->
+    <link name = "wpm2_joint_2">
+    <visual>
+        <geometry>
+            <mesh filename="package://wpm2_bringup/meshes/wpm2_joint_2.stl" scale="1 1 1"/>
+        </geometry>
+        <material name = "light_grey"/>
+        <origin rpy = "-1.57 0 1.57" xyz = "0.135 -0.07 0.1285"/>
+    </visual>
+</link>
+    <joint name = "joint1_joint2" type = "revolute">
+    <parent link = "wpm2_joint_1"/>
+    <child link = "wpm2_joint_2"/>
+    <axis xyz = "0 0 1"/>
+    <origin xyz = "0 0 0.1585"/>
+    <limit effort = "1000.0" lower="-3.14" upper="3.14" velocity="0.5"/>
+</joint>
+
+<!-- mani_part_3 -->
+<link name = "wpm2_joint_3">
+    <visual>
+        <geometry>
+            <mesh filename="package://wpm2_bringup/meshes/wpm2_joint_3.stl" scale="1 1 1"/>
+        </geometry>
+        <material name = "grey"/>
+        <origin rpy = "1.57 0 1.57" xyz = "-0.12 -0.08 -0.048"/>
+    </visual>
+</link>
+    <joint name = "joint2_joint3" type = "revolute">
+    <parent link = "wpm2_joint_2"/>
+    <child link = "wpm2_joint_3"/>
+    <axis xyz = "0 -1 0"/>
+    <origin xyz = "0 0 0.0825"/>
+    <limit effort = "1000.0" lower="-3.14" upper="3.14" velocity="0.5"/>
+</joint>
+
+<!-- mani_part_4 -->
+<link name = "wpm2_joint_4">
+    <visual>
+        <geometry>
+            <mesh filename="package://wpm2_bringup/meshes/wpm2_joint_4.stl" scale="1 1 1"/>
+        </geometry>
+        <material name = "light_grey"/>
+        <origin rpy = "0 1.57 0" xyz = "-0.116 -0.057 0.122"/>
+    </visual>
+</link>
+    <joint name = "joint3_joint4" type = "revolute">
+    <parent link = "wpm2_joint_3"/>
+    <child link = "wpm2_joint_4"/>
+    <axis xyz = "0 0 1"/>
+    <origin xyz = "0 0 0.197"/>
+    <limit effort = "1000.0" lower="-3.14" upper="3.14" velocity="0.5"/>
+</joint>
+
+<!-- mani_part_5 -->
+<link name = "wpm2_joint_5">
+    <visual>
+        <geometry>
+            <mesh filename="package://wpm2_bringup/meshes/wpm2_joint_5.stl" scale="1 1 1"/>
+        </geometry>
+        <material name = "grey"/>
+        <origin rpy = "0 -1.57 0" xyz = "0.107 -0.053 -0.033"/>
+    </visual>
+</link>
+    <joint name = "joint4_joint5" type = "revolute">
+    <parent link = "wpm2_joint_4"/>
+    <child link = "wpm2_joint_5"/>
+    <axis xyz = "1 0 0"/>
+    <origin xyz = "0 0 0.076"/>
+    <limit effort = "1000.0" lower="-3.14" upper="3.14" velocity="0.5"/>
+</joint>
+
+<!-- mani_part_6 -->
+<link name = "wpm2_joint_6">
+    <visual>
+        <geometry>
+            <mesh filename="package://wpm2_bringup/meshes/wpm2_joint_4.stl" scale="1 1 1"/>
+        </geometry>
+        <material name = "light_grey"/>
+        <origin rpy = "0 1.57 1.57" xyz = "0.055 -0.115 0.122"/>
+    </visual>
+</link>
+    <joint name = "joint5_joint6" type = "revolute">
+    <parent link = "wpm2_joint_5"/>
+    <child link = "wpm2_joint_6"/>
+    <axis xyz = "0 0 1"/>
+    <origin xyz = "0 0 0.197"/>
+    <limit effort = "1000.0" lower="-3.14" upper="3.14" velocity="0.5"/>
+</joint>
+
+<!-- mani_palm -->
+<link name = "wpm2_palm">
+    <visual>
+        <geometry>
+            <mesh filename="package://wpm2_bringup/meshes/wpm2_palm.stl" scale="1 1 1"/>
+        </geometry>
+        <material name = "grey"/>
+        <origin rpy = "0 -1.57 1.57" xyz = "0.0566 0.0985 -0.034"/>
+    </visual>
+</link>
+    <joint name = "joint6_palm" type = "revolute">
+    <parent link = "wpm2_joint_6"/>
+    <child link = "wpm2_palm"/>
+    <axis xyz = "0 1 0"/>
+    <origin xyz = "0 0 0.076"/>
+    <limit effort = "1000.0" lower="-3.14" upper="3.14" velocity="0.5"/>
+</joint>
+
+<!-- finger -->
+    <link name = "wpm2_left_finger">
+    <visual>
+        <geometry>
+            <mesh filename="package://wpm2_bringup/meshes/wpm2_finger.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+            <material name = "light_grey"/>
+        <origin rpy = "1.57 0 -1.57" xyz = ".021 0.005 -0.005"/>
+    </visual>
+</link>
+<joint name = "wpm2_palm_finger" type = "revolute">
+    <parent link = "wpm2_palm"/>
+    <child link = "wpm2_left_finger"/>
+    <origin xyz = "0 0.06 0.219"/>
+    <axis xyz = "-1 0 0"/>
+    <limit effort = "1000.0" lower="0" upper="1.0" velocity="0.5"/>
+</joint>
+
+    <link name = "wpm2_right_finger">
+    <visual>
+        <geometry>
+            <mesh filename="package://wpm2_bringup/meshes/wpm2_finger.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+            <material name = "light_grey"/>
+        <origin rpy = "1.57 0 1.57" xyz = "-0.0175 -0.005 -0.005"/>
+    </visual>
+</link>
+<joint name = "wpm2_palm_right_finger" type = "revolute">
+    <parent link = "wpm2_palm"/>
+    <child link = "wpm2_right_finger"/>
+    <origin xyz = "0 -0.06 0.219"/>
+    <axis xyz = "1 0 0"/>
+    <limit effort = "1000.0" lower="0" upper="1.0" velocity="0.5"/>
+    <mimic joint = "wpm2_palm_finger" multiplier = "1" offset = "0"/>
+</joint>
+<!-- *****************-->
+
+<!-- Lidar -->
+<link name = "laser">
+  <visual>
+   <geometry>
+    <cylinder length="0" radius="0"/>
+   </geometry>
+   <origin rpy = "0 0 0" xyz = "0 0 0"/>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <geometry>
+      <cylinder radius="0.03" length="0.03"/>
+    </geometry>
+  </collision>
+  <inertial>
+  <mass value="10"/>
+  <inertia ixx="0.4" ixy="0.0" ixz="0.0" iyy="0.4" iyz="0.0" izz="0.2"/>
+  </inertial>
+</link>
+<joint name="laser_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0.2 0 0"  /> <!--pos-->
+    <parent link="base_link" />
+    <child link="laser" />
+</joint>
+
+<!-- velodyne -->
+<link name = "velo_link">
+  <visual>
+   <geometry>
+    <cylinder length="0.00" radius="0.00"/>
+   </geometry>
+   <origin rpy = "0 0 0" xyz = "0 0 0"/>
+  </visual>
+</link>
+<joint name="velodyne_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0.2 0 1.7"  /> <!--pos-->
+    <parent link="base_link" />
+    <child link="velo_link" />
+</joint>
+
+<!-- Kinect -->
+<!-- Kinect -->
+<link name = "kinect2_dock">
+  <visual>
+   <geometry>
+    <!-- <box size=".01 .25 .07"/>-->
+    <box size="0 0 0"/>
+   </geometry>
+   <origin rpy = "0 0 0" xyz = "0 0 0"/>
+   <material name = "red"/>
+  </visual>
+</link>
+<joint name="kinect_height" type="prismatic">
+    <parent link="base_footprint"/>
+    <child link="kinect2_dock"/>
+    <limit effort="1000.0" lower="0" upper="1.7" velocity="0.5"/>
+    <origin xyz="0.174 0 0" rpy="0 -1.5707963 0"/>
+  </joint>
+
+<link name = "kinect2_ir_optical_frame">
+  <visual>
+   <geometry>
+    <!-- <box size=".25 .04 .07"/>-->
+    <box size="0 0 0"/>
+   </geometry>
+   <origin xyz = "0 0 0" rpy = "0 0 0"/>
+   <material name = "blue"/>
+  </visual>
+</link>
+
+<joint name="kinect_pitch" type="revolute">
+    <axis xyz="1 0 0"/>
+    <limit effort="1000.0" lower="-1.57" upper="1.57" velocity="0.5"/>
+    <origin xyz="0 0 0" rpy="3.1415926 0 -1.5707963" /> <!--pos-->
+    <parent link="kinect2_dock" />
+    <child link="kinect2_ir_optical_frame" />
+</joint>
+<!-- <joint name="kinect_joint" type="fixed">
+    <origin xyz="0.174 0 1.35" rpy="-1.5707963 0 -1.5707963" /> 
+    <parent link="base_link" />
+    <child link="kinect2_ir_optical_frame" />
+</joint>-->
+
+<link name = "kinect2_rgb_optical_frame">
+  <visual>
+   <geometry>
+    <box size="0 0 0"/>
+   </geometry>
+   <origin rpy = "0 0 0" xyz = "0 0 0"/>
+   <material name = "blue"/>
+  </visual>
+</link>
+<joint name="kinect_hd_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0" /> <!--pos-->
+    <parent link="kinect2_ir_optical_frame" />
+    <child link="kinect2_rgb_optical_frame" />
+</joint>
+
+</robot>

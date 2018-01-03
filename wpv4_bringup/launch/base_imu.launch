@@ -3,9 +3,12 @@
     <!-- wpv4 core-->
     <node pkg="wpv4_bringup" type="wpv4_core" name="wpv4_core" output="screen">
         <param name="serial_port" type="string" value="/dev/wpv4_base"/> 
+        <rosparam file="$(find wpv4_bringup)/config/settings.yaml" command="load" />
     </node>
 
     <!-- wpv4 imu -->
-    <node pkg="wpv4_bringup" type="wpv4_imu" name="wpv4_imu" output="screen"/>
+    <node pkg="wpv4_bringup" type="wpv4_imu" name="wpv4_imu" output="screen">
+        <param name="serial_port" type="string" value="/dev/wpv4_imu"/> 
+    </node>
 
 </launch>

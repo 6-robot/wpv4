@@ -1,9 +1,7 @@
 <launch>
 
-    <!-- wpv4 core -->
-    <node pkg="wpv4_bringup" type="wpv4_core" name="wpv4_core">
-        <param name="serial_port" type="string" value="/dev/wpv4_base"/> 
-    </node>
+    <!--- wpv4 base imu -->
+    <include file="$(find wpv4_bringup)/launch/base_imu.launch" />
 
     <!-- joy node -->
     <node respawn="true" pkg="joy" type="joy_node" name="joy_node">

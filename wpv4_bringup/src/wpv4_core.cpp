@@ -1,11 +1,21 @@
 #include <ros/ros.h>
 #include <sensor_msgs/Imu.h>
 #include <tf/transform_broadcaster.h>
+#include <sensor_msgs/JointState.h>
 #include <nav_msgs/Odometry.h>
 #include <geometry_msgs/Pose2D.h>
 #include <geometry_msgs/Twist.h>
 #include "WPV4_driver.h"
 #include <math.h>
+
+/*!******************************************************************
+ 底盘类型选择
+ ********************************************************************/
+#define CT_4WD        1   //四轮驱动底盘模式
+#define CT_TRACK      2   //三轮全向底盘模式
+#define CT_MECANUM    3   //麦克纳姆轮全向底盘模式
+
+static int nChassisType = CT_4WD;
 
 static CWPV4_driver m_wpv4;
 static int nLastMotorPos[4];
@@ -13,7 +23,19 @@ static geometry_msgs::Twist lastVel;
 void cmdVelCallback(const geometry_msgs::Twist::ConstPtr& msg)
 {
     //ROS_INFO("[wpv4_cmd_vel] liner(%.2f %.2f) angular(%.2f)", msg->linear.x,msg->linear.y,msg->angular.z);
-    m_wpv4.Velocity(msg->linear.x,0,msg->angular.z);
+    switch(nChassisType)
+    {
+        case CT_4WD:
+            m_wpv4.Velocity(msg->linear.x,0,msg->angular.z);
+            break;
+        case CT_TRACK:
+            m_wpv4.Track(msg->linear.x,0,msg->angular.z);
+            break;
+        case CT_MECANUM:
+            m_wpv4.Mecanum(msg->linear.x,msg->linear.y,msg->angular.z);
+            break;
+    }
+    
 
     lastVel.linear.x = msg->linear.x*2.9;
     lastVel.linear.y = 0;
@@ -61,22 +83,64 @@ int main(int argc, char** argv)
     ros::Subscriber cmd_vel_sub = n.subscribe("cmd_vel",1,&cmdVelCallback);
     ros::Subscriber sub_imu = n.subscribe("/imu/data_raw", 10, IMUCallback);
 
-    //ros::Publisher odom_pub = n.advertise<nav_msgs::Odometry>("odom", 50);
-    //m_wpv4.Open("/dev/ttyUSB0",115200);
-
     ros::NodeHandle n_param("~");
     std::string strSerialPort;
-    n_param.param<std::string>("serial_port", strSerialPort, "/dev/ttyUSB0");
+    n_param.param<std::string>("serial_port", strSerialPort, "/dev/wpv4_base");
     m_wpv4.Open(strSerialPort.c_str(),115200);
     bool bOdom = true;
     n_param.param<bool>("odom", bOdom, true);
     bool bImuOdom = false;
     n_param.param<bool>("imu_odom", bImuOdom, false);
+    bool bJointStatePub = true;
+    n_param.param<bool>("joint_state", bJointStatePub, false);
+    std::string chassis_type;
+    if (n_param.getParam("chassis_type", chassis_type))
+    {
+        printf("[设置]底盘类型= %s \n",chassis_type.c_str());
+        if(chassis_type == "4wd")
+        {
+            printf("[设置]四轮驱动底盘 \n");
+            nChassisType = CT_4WD;
+        }
+        if(chassis_type == "track")
+        {
+            printf("[设置]履带底盘 \n");
+            nChassisType = CT_TRACK;
+        }
+        if(chassis_type == "mecanum")
+        {
+            printf("[设置]麦克纳姆轮底盘 \n");
+            nChassisType = CT_MECANUM;
+        }
+    }
+    else
+    {
+        printf("[设置]未设置底盘类型,默认为四轮驱动底盘 \n");
+        nChassisType = CT_4WD;
+    }
     
     ros::Time current_time, last_time;
     current_time = ros::Time::now();
     last_time = ros::Time::now();
     ros::Rate r(30.0);
+
+    ros::Publisher joint_state_pub = n.advertise<sensor_msgs::JointState>("/joint_states",100);
+    sensor_msgs::JointState msg;
+    std::vector<std::string> joint_name(6);
+    std::vector<double> joint_pos(6);
+
+    joint_name[0] = "base_to_lf_wheal";
+    joint_name[1] = "base_to_rf_wheal";
+    joint_name[2] = "base_to_lb_wheal";
+    joint_name[3] = "base_to_rb_wheal";
+    joint_name[4] = "kinect_height";
+    joint_name[5] = "kinect_pitch";
+    joint_pos[0] = 0.0f;
+    joint_pos[1] = 0.0f;
+    joint_pos[2] = 0.0f;
+    joint_pos[3] = 0.0f;
+    joint_pos[4] = 0.50f;    //kinect_height
+    joint_pos[5] = -0.17f;    //kinect_pitch
     
     ros::Publisher odom_pub;
     geometry_msgs::TransformStamped odom_trans;
@@ -224,6 +288,16 @@ int main(int argc, char** argv)
             }
             ///////////
         }
+
+        if(bJointStatePub == true)
+        {
+            msg.header.stamp = ros::Time::now();
+            msg.header.seq ++;
+            msg.name = joint_name;
+            msg.position = joint_pos;
+            joint_state_pub.publish(msg);
+        }
+
         ros::spinOnce();
         r.sleep();
     }

@@ -1,0 +1,278 @@
+<?xml version="1.0"?>
+<robot name="WPV4_MW">
+
+  <!-- material -->
+  <material name = "black">
+    <color rgba = "0.01 0.01 0.01 1"/>
+  </material>
+  <material name = "grey">
+    <color rgba = "0.2 0.2 0.2 1"/>
+  </material>
+  <material name = "blue">
+    <color rgba = "0.2 0.2 0.9 1"/>
+  </material>
+
+
+<link name="base_footprint">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.05 0.05 0.001" />
+      </geometry>
+      <material name="TransparentGreen" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 .1" rpy="0 0 0" />
+      <geometry>
+        <box size="0.76 0.5 .2"/>
+      </geometry>
+    </collision>
+    <inertial>
+    <mass value="10"/>
+    <inertia ixx="0.4" ixy="0.0" ixz="0.0" iyy="0.4" iyz="0.0" izz="0.2"/>
+    </inertial>
+</link>
+
+<joint name="base_joint" type="fixed">
+  <origin xyz="0 0 0.06" rpy="0 0 0" />
+  <parent link="base_footprint"/>
+  <child link="base_link" />
+</joint>
+
+  <!-- base -->
+  <link name="base_link">
+  <visual>
+   <geometry>
+    <cylinder length="0.6" radius="0.0"/>
+   </geometry>
+   <origin rpy = "0 0 0" xyz = "0 0 0"/>
+  </visual>
+  </link>
+
+  <!-- body -->
+  <link name = "body_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://wpv4_bringup/meshes/body.dae" scale="1 1 1"/>
+      </geometry>
+      <origin rpy = "1.57 0 1.57" xyz = "-0.38 -0.25 0"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 .15" rpy="0 0 0" />
+      <geometry>
+        <box size="0.76 0.5 0.095"/>
+      </geometry>
+    </collision>
+    <inertial>
+    <mass value="10"/>
+    <inertia ixx="0.4" ixy="0.0" ixz="0.0" iyy="0.4" iyz="0.0" izz="0.2"/>
+    </inertial>
+  </link>
+  <joint name = "base_to_body" type = "fixed">
+    <parent link = "base_link"/>
+    <child link = "body_link"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/> <!--pos-->
+  </joint>
+  <gazebo reference = "body_link">
+            <turnGravityOff>false</turnGravityOff>
+  </gazebo>
+
+  <!-- wheel -->
+  <link name = "lf_wheel">
+    <visual>
+      <geometry>
+        <mesh filename="package://wpv4_bringup/meshes/mecanum_left.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <origin rpy = "1.57 0 0" xyz = "-0.098  0.07 -0.098"/>
+      <material name = "black"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.57 0 0" />
+      <geometry>
+        <cylinder radius="0.13" length="0.08"/>
+      </geometry>
+    </collision>
+    <inertial>
+    <mass value="10"/>
+    <inertia ixx="0.4" ixy="0.0" ixz="0.0" iyy="0.4" iyz="0.0" izz="0.2"/>
+    </inertial>
+  </link>
+  <joint name = "base_to_lf_wheal" type = "continuous">
+    <axis rpy="0 0 0" xyz="0 1 0"/>
+    <parent link = "base_link"/>
+    <child link = "lf_wheel"/>
+    <origin rpy="0 0 0" xyz="0.135 0.26 0.038"/> <!--pos to base-->
+  </joint>
+   <gazebo reference = "lf_wheel">
+            <mu1 value = "1.0"/>
+            <mu2 value = "1.0"/>
+            <kp value = "10.0"/>
+            <kd value = "1.0"/>
+            <fdir1 value = "1 0 0"/>
+            <turnGravityOff>true</turnGravityOff>
+  </gazebo>
+
+<link name = "rf_wheel">
+  <visual>
+    <geometry>
+      <mesh filename="package://wpv4_bringup/meshes/mecanum_right.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <origin rpy = "1.57 0 0" xyz = "-0.10 0.07 -0.10"/>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="1.57 0 0" />
+    <geometry>
+      <cylinder radius="0.13" length="0.08"/>
+    </geometry>
+  </collision>
+  <inertial>
+  <mass value="10"/>
+  <inertia ixx="0.4" ixy="0.0" ixz="0.0" iyy="0.4" iyz="0.0" izz="0.2"/>
+  </inertial>
+</link>
+<joint name = "base_to_rf_wheal" type = "continuous">
+  <axis rpy="0 0 0" xyz="0 -1 0"/>
+  <parent link = "base_link"/>
+  <child link = "rf_wheel"/>
+  <origin rpy="0 0 3.14" xyz="0.135 -0.26 0.038"/> <!--pos-->
+</joint>
+ <gazebo reference = "rf_wheel">
+            <mu1 value = "1.0"/>
+            <mu2 value = "1.0"/>
+            <kp value = "10.0"/>
+            <kd value = "1.0"/>
+            <fdir1 value = "1 0 0"/>
+            <turnGravityOff>false</turnGravityOff>
+        </gazebo>
+
+<link name = "lb_wheel">
+  <visual>
+    <geometry>
+     <mesh filename="package://wpv4_bringup/meshes/mecanum_right.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <origin rpy = "1.57 0 0" xyz = "-0.10  0.07 -0.10"/>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="1.57 0 0" />
+    <geometry>
+      <cylinder radius="0.13" length="0.08"/>
+    </geometry>
+  </collision>
+  <inertial>
+  <mass value="10"/>
+  <inertia ixx="0.4" ixy="0.0" ixz="0.0" iyy="0.4" iyz="0.0" izz="0.2"/>
+  </inertial>
+</link>
+<joint name = "base_to_lb_wheal" type = "continuous">
+  <axis rpy="0 0 0" xyz="0 1 0"/>
+  <parent link = "base_link"/>
+  <child link = "lb_wheel"/>
+  <origin rpy="0 0 0" xyz="-0.175 0.26 0.038"/> <!--pos to base-->
+</joint>
+ <gazebo reference = "lb_wheel">
+            <mu1 value = "1.0"/>
+            <mu2 value = "1.0"/>
+            <kp value = "10.0"/>
+            <kd value = "1.0"/>
+            <fdir1 value = "1 0 0"/>
+            <turnGravityOff>false</turnGravityOff>
+        </gazebo>
+
+<link name = "rb_wheel">
+  <visual>
+    <geometry>
+      <mesh filename="package://wpv4_bringup/meshes/mecanum_left.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <origin rpy = "1.57 0 0" xyz = "-0.10  0.07 -0.10"/>
+    <material name = "black"/>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="1.57 0 0" />
+    <geometry>
+      <cylinder radius="0.13" length="0.08"/>
+    </geometry>
+  </collision>
+  <inertial>
+  <mass value="10"/>
+  <inertia ixx="0.4" ixy="0.0" ixz="0.0" iyy="0.4" iyz="0.0" izz="0.2"/>
+  </inertial>
+</link>
+<joint name = "base_to_rb_wheal" type = "continuous">
+  <axis rpy="0 0 0" xyz="0 -1 0"/>
+  <parent link = "base_link"/>
+  <child link = "rb_wheel"/>
+  <origin rpy="0 0 3.14" xyz="-0.175 -0.26 0.038"/> <!--pos-->
+</joint>
+ <gazebo reference = "rb_wheel">
+            <mu1 value = "1.0"/>
+            <mu2 value = "1.0"/>
+            <kp value = "10.0"/>
+            <kd value = "1.0"/>
+            <fdir1 value = "1 0 0"/>
+            <turnGravityOff>false</turnGravityOff>
+        </gazebo>
+
+<!-- Lidar -->
+<link name = "laser">
+  <visual>
+   <geometry>
+    <cylinder length="0" radius="0"/>
+   </geometry>
+   <origin rpy = "0 0 0" xyz = "0 0 0"/>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <geometry>
+      <cylinder radius="0.03" length="0.03"/>
+    </geometry>
+  </collision>
+  <inertial>
+  <mass value="10"/>
+  <inertia ixx="0.4" ixy="0.0" ixz="0.0" iyy="0.4" iyz="0.0" izz="0.2"/>
+  </inertial>
+</link>
+<joint name="laser_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0.2 0 0"  /> <!--pos-->
+    <parent link="base_link" />
+    <child link="laser" />
+</joint>
+
+<!-- velodyne -->
+<link name = "velo_link">
+  <visual>
+   <geometry>
+    <cylinder length="0.03" radius="0.03"/>
+   </geometry>
+   <origin rpy = "0 0 0" xyz = "0 0 0"/>
+  </visual>
+</link>
+<joint name="velodyne_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0.2 0 1.7"  /> <!--pos-->
+    <parent link="base_link" />
+    <child link="velo_link" />
+</joint>
+
+<!-- Kinect -->
+<link name = "kinect2_ir_optical_frame">
+  <visual>
+   <geometry>
+    <box size="0 .0 0"/>
+   </geometry>
+   <origin rpy = "0 0 0" xyz = "0 0 0"/>
+   <material name = "blue"/>
+  </visual>
+</link>
+<joint name="kinect_joint" type="fixed">
+    <origin xyz="0.2 0 0.2" rpy="-1.5707963 0 -1.5707963" /> <!--pos-->
+    <parent link="base_link" />
+    <child link="kinect2_ir_optical_frame" />
+</joint>
+
+<!-- Gazebo plugin for ROS Control -->
+<gazebo>
+  <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+    <robotNamespace>/</robotNamespace>
+  </plugin>
+</gazebo>
+
+</robot>

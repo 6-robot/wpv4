@@ -1,0 +1,10 @@
+<launch>
+
+  <!-- WPM2 Moveit without RVIZ-->
+  <include file="$(find wpm2_bringup)/launch/plan_exec_no_rviz.launch">
+  </include>
+
+  <!-- WPM2 Plan & Execute -->
+  <node name="wpm2_planning" pkg="wpm2_tutorials" type="wpm2_plan_execute" output="screen"/>
+
+</launch>

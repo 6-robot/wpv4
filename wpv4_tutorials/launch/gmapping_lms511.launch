@@ -18,6 +18,7 @@
   <node pkg="wpv4_bringup" type="wpv4_core" name="wpv4_core" output="screen">
     <param name="serial_port" type="string" value="/dev/wpv4_base"/> 
     <param name="imu_odom" type="bool" value="true"/> 
+    <rosparam file="$(find wpv4_bringup)/config/settings.yaml" command="load" />
   </node>
 
   <!-- wpv4 imu-->
