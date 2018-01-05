@@ -1,0 +1,11 @@
+<launch>
+
+  <!-- WPM2 Core-->
+  <node name="wpm2_core" pkg="wpm2_bringup" type="wpm2_core" output="screen">
+      <param name="serial_port" type="string" value="/dev/wpv4_mani"/> 
+  </node>
+
+  <!-- joint control demo -->
+  <node name="wpm2_joint_control_degree" pkg="wpm2_tutorials" type="wpm2_joint_control_degree" output="screen"/>
+
+</launch>
