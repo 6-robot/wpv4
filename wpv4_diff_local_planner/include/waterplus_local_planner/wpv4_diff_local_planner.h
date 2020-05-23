@@ -37,6 +37,7 @@ namespace waterplus_local_planner
     ~WPV4DiffLocalPlanner();
 
     void initialize(std::string name, tf::TransformListener* tf, costmap_2d::Costmap2DROS* costmap_ros);
+    void initialize(std::string name,tf2_ros::Buffer* tf, costmap_2d::Costmap2DROS* costmap_ros);
     bool setPlan(const std::vector<geometry_msgs::PoseStamped>& plan);
     bool computeVelocityCommands(geometry_msgs::Twist& cmd_vel);
     bool isGoalReached();
